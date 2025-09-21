@@ -30,7 +30,7 @@ mkdir .config/waybar; nano .config/waybar/config
   "height": 30,
   "modules-left": ["custom/menu"],
   "modules-center": ["clock"],
-  "modules-right": ["pulseaudio", "battery", "custom/power"],
+  "modules-right": ["backlight", "pulseaudio", "battery", "custom/power"],
   
   "custom/menu": {
     "format": "Apps",
@@ -41,6 +41,13 @@ mkdir .config/waybar; nano .config/waybar/config
     "format": "{:%H:%M}",
     "format-alt": "{:%Y-%m-%d %H:%M:%S}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+  
+  "backlight": {
+    "format": "{percent}% ☀",
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "on-click": "brightnessctl set 50%"
   },
   
   "battery": {
