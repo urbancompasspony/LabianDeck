@@ -1,0 +1,50 @@
+Install Debian Testing
+
+# Após instalação netinstall do Debian Testing
+sudo apt update
+sudo apt install labwc waybar wofi foot thunar grim slurp \
+                 distrobox podman wlr-randr brightnessctl \
+                 pulseaudio pavucontrol network-manager-gnome
+
+~/.config/labwc/rc.xml
+
+<keyboard>
+  <keybind key="A-Return"><action name="Execute"><command>foot</command></action></keybind>
+  <keybind key="A-d"><action name="Execute"><command>wofi --show=drun</command></action></keybind>
+  <keybind key="A-e"><action name="Execute"><command>thunar</command></action></keybind>
+</keyboard>
+
+~/.config/waybar/config
+
+{
+  "modules-right": ["pulseaudio", "battery", "clock", "custom/power"],
+  "custom/power": {
+    "format": "⏻",
+    "on-click": "wofi --show=dmenu --prompt='Power:' <<< 'Shutdown\nReboot\nLogout' | xargs -I {} systemctl {}"
+  }
+}
+
+sudo systemctl edit getty@tty1
+# Adicionar:
+[Service]
+ExecStart=
+ExecStart=-/sbin/agetty --autologin seu_usuario --noclear %I $TERM
+
+# wlr-randr para rotacionar displays
+wlr-randr --output eDP-1 --transform 90  # ou 180, 270
+
+~/.config/labwc/autostart
+#!/bin/bash
+wlr-randr --output eDP-1 --transform 90 &
+chmod +x ~/.config/labwc/autostart
+
+# Container otimizado para gaming
+distrobox create --image fedora:39 --name gaming
+distrobox enter gaming
+# Instalar Steam, Lutris, etc
+
+# Atualização normal
+sudo apt update && sudo apt upgrade
+
+# Full-upgrade quando necessário (mudanças de dependências)
+sudo apt update && sudo apt full-upgrade
