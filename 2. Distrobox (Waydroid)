@@ -15,16 +15,17 @@ REBOOT.
 SE NÃO CARREGAR:
 sudo modprobe binder_linux
 
-$ lsmod | grep binder
-
-distrobox create --root --image ghcr.io/vanilla-os/waydroid:main --init --unshare-all --name waydroid
-distrobox enter --root waydroid
-
-Inside container:
-sudo waydroid init
-
 # Criar binderfs
 sudo mkdir -p /dev/binderfs
 sudo mount -t binder binder /dev/binderfs
+
+$ lsmod | grep binder
+
+NÃO RODE ESTA BAGAÇA REMOTAMENTE!
+RODE LOCALHOST!
+
+distrobox create --root --image ghcr.io/vanilla-os/waydroid:main --init --unshare-all --name waydroid
+distrobox enter --root waydroid
+sudo waydroid init
 
 ewaydroid show-full-ui
