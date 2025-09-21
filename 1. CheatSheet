@@ -1,0 +1,2 @@
+# wlr-randr para rotacionar displays
+wlr-randr --output eDP-1 --transform 90  # ou 180, 270
