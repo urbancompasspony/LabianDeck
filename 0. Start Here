@@ -32,6 +32,6 @@ ExecStart=-/sbin/agetty --autologin seu_usuario --noclear %I $TERM
 
 nano .config/labwc/autostart
 #!/bin/bash
-wlr-randr --output eDP-1 --transform 90 &
+wlr-randr --output eDP-1 --transform 180 &
 
 chmod +x ~/.config/labwc/autostart
