@@ -1,23 +1,21 @@
 Install Debian Testing
 
-ssh user@IP
-su root
-curl -sSL https://raw.githubusercontent.com/urbancompasspony/bashrc/main/install.sh | bash
-
 # Após instalação netinstall do Debian Testing
 sudo apt update
-sudo apt install labwc waybar wofi foot thunar grim slurp distrobox docker.io wlr-randr brightnessctl pulseaudio pavucontrol
-#? network-manager-gnome
+sudo apt install labwc waybar wofi foot thunar grim slurp \
+                 distrobox podman wlr-randr brightnessctl \
+                 pulseaudio pavucontrol network-manager-gnome
 
-exit
-mkdir .config/labwc; nano .config/labwc/rc.xml
+~/.config/labwc/rc.xml
+
 <keyboard>
   <keybind key="A-Return"><action name="Execute"><command>foot</command></action></keybind>
   <keybind key="A-d"><action name="Execute"><command>wofi --show=drun</command></action></keybind>
   <keybind key="A-e"><action name="Execute"><command>thunar</command></action></keybind>
 </keyboard>
 
-mkdir .config/waybar; nano .config/waybar/config
+~/.config/waybar/config
+
 {
   "modules-right": ["pulseaudio", "battery", "clock", "custom/power"],
   "custom/power": {
@@ -26,26 +24,14 @@ mkdir .config/waybar; nano .config/waybar/config
   }
 }
 
-su root
-systemctl edit getty@tty1
+sudo systemctl edit getty@tty1
 # Adicionar:
 [Service]
 ExecStart=
 ExecStart=-/sbin/agetty --autologin seu_usuario --noclear %I $TERM
-exit
 
 nano .config/labwc/autostart
 #!/bin/bash
 wlr-randr --output eDP-1 --transform 90 &
+
 chmod +x ~/.config/labwc/autostart
-
-# Container otimizado para gaming
-distrobox create --image fedora:39 --name gaming
-distrobox enter gaming
-# Instalar Steam, Lutris, etc
-
-# Atualização normal
-sudo apt update && sudo apt upgrade
-
-# Full-upgrade quando necessário (mudanças de dependências)
-sudo apt update && sudo apt full-upgrade
