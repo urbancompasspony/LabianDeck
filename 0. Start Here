@@ -2,12 +2,18 @@ Install Debian Testing
 
 ssh user@IP
 su root
-curl -sSL https://raw.githubusercontent.com/urbancompasspony/bashrc/main/install.sh | bash
 
 # Após instalação netinstall do Debian Testing
-sudo apt update
-sudo apt install labwc waybar wofi foot thunar grim slurp distrobox docker.io wlr-randr brightnessctl pulseaudio pavucontrol
+apt update
+apt install sudo labwc waybar wofi foot thunar grim slurp distrobox docker.io wlr-randr brightnessctl pulseaudio pavucontrol terminator inxi btop
 #? network-manager-gnome
+
+nano /etc/group
+sudo:x:27:seu_usuario
+
+sudo usermod -aG docker ztge
+
+curl -sSL https://raw.githubusercontent.com/urbancompasspony/bashrc/main/install.sh | bash
 
 exit
 mkdir .config/labwc; nano .config/labwc/rc.xml
@@ -19,12 +25,76 @@ mkdir .config/labwc; nano .config/labwc/rc.xml
 
 mkdir .config/waybar; nano .config/waybar/config
 {
-  "modules-right": ["pulseaudio", "battery", "clock", "custom/power"],
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "modules-left": ["custom/menu"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "battery", "custom/power"],
+  
+  "custom/menu": {
+    "format": "Apps",
+    "on-click": "wofi --show=drun"
+  },
+  
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%Y-%m-%d %H:%M:%S}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+  
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-icons": ["", "", "", "", ""]
+  },
+  
+  "pulseaudio": {
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "🔇",
+    "format-icons": {
+      "default": ["🔈", "🔉", "🔊"]
+    },
+    "on-click": "pavucontrol"
+  },
+  
   "custom/power": {
     "format": "⏻",
-    "on-click": "wofi --show=dmenu --prompt='Power:' <<< 'Shutdown\nReboot\nLogout' | xargs -I {} systemctl {}"
+    "on-click": "echo -e 'Shutdown\\nReboot\\nLogout' | wofi --show=dmenu --prompt='Power:' | xargs -I {} systemctl {}"
   }
 }
+
+nano .config/labwc/rc.xml
+<?xml version="1.0"?>
+<labwc_config>
+<keyboard>
+  <!-- Terminal com Ctrl+Alt+T -->
+  <keybind key="C-A-t">
+    <action name="Execute">
+      <command>terminator</command>
+    </action>
+  </keybind>
+  
+  <!-- Outros atalhos úteis -->
+  <keybind key="A-Return">
+    <action name="Execute">
+      <command>foot</command>
+    </action>
+  </keybind>
+  
+  <keybind key="A-d">
+    <action name="Execute">
+      <command>wofi --show=drun</command>
+    </action>
+  </keybind>
+  
+  <keybind key="A-e">
+    <action name="Execute">
+      <command>thunar</command>
+    </action>
+  </keybind>
+</keyboard>
+</labwc_config>
 
 su root
 systemctl edit getty@tty1
@@ -37,6 +107,7 @@ exit
 nano .config/labwc/autostart
 #!/bin/bash
 wlr-randr --output eDP-1 --transform 270 &
+waybar &
 
 chmod +x ~/.config/labwc/autostart
 
