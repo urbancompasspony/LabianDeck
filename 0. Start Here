@@ -111,5 +111,7 @@ waybar &
 
 chmod +x ~/.config/labwc/autostart
 
+sudo apt purge needrestart
+
 # TO START:
 $ labwc
