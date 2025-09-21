@@ -1,2 +1,13 @@
 # wlr-randr para rotacionar displays
 wlr-randr --output eDP-1 --transform 90  # ou 180, 270
+
+# Container otimizado para gaming
+distrobox create --image fedora:39 --name gaming
+distrobox enter gaming
+# Instalar Steam, Lutris, etc
+
+# Atualização normal
+sudo apt update && sudo apt upgrade
+
+# Full-upgrade quando necessário (mudanças de dependências)
+sudo apt update && sudo apt full-upgrade
