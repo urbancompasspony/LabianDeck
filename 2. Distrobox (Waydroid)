@@ -22,19 +22,9 @@ distrobox enter --root waydroid
 
 Inside container:
 sudo waydroid init
-ewaydroid show-full-ui
-
-
-
-
-
-
-
 
 # Criar binderfs
 sudo mkdir -p /dev/binderfs
 sudo mount -t binder binder /dev/binderfs
 
-# Verificar se criou os dispositivos
-ls -la /dev/binderfs/
-
+ewaydroid show-full-ui
